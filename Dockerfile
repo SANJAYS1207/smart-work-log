@@ -1,7 +1,6 @@
 # =============================
 # Smart Work Log Tracker
 # =============================
-# Build the JAR first: mvn clean package -DskipTests
 FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 COPY pom.xml .
@@ -14,5 +13,8 @@ FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/smartlog-1.0.0.jar app.jar
 
+# Set timezone to India Standard Time
+ENV TZ=Asia/Kolkata
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Duser.timezone=Asia/Kolkata", "-jar", "app.jar"]
